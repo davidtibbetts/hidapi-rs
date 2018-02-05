@@ -35,6 +35,11 @@ extern "C" {
                     product_id: c_ushort,
                     serial_number: *const wchar_t)
                     -> *mut HidDevice;
+    pub fn hid_open_with_usage(vendor_id: c_ushort,
+                    product_id: c_ushort,
+                    usage: c_ushort,
+                    usage_page: c_ushort)
+                    -> *mut HidDevice;
     pub fn hid_open_path(path: *const c_char) -> *mut HidDevice;
     pub fn hid_write(device: *mut HidDevice, data: *const c_uchar, length: size_t) -> c_int;
     pub fn hid_read_timeout(device: *mut HidDevice,

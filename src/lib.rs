@@ -128,6 +128,20 @@ impl HidApi {
         }
     }
 
+    /// Open a HID device using a Vendor ID (VID), Product ID (PID), Usage, and Usage Page
+    pub fn open_usage(&self, vid: u16, pid: u16, usage: u16, usage_page: u16) -> HidResult<HidDevice> {
+        let device = unsafe { ffi::hid_open_with_usage(vid, pid, usage, usage_page) };
+
+        if device.is_null() {
+            Err("Unable to open hid device")
+        } else {
+            Ok(HidDevice {
+                _hid_device: device,
+                phantom: PhantomData,
+            })
+        }
+    }
+
     /// Open a HID device using a Vendor ID (VID), Product ID (PID) and
     /// a serial number.
     pub fn open_serial(&self, vid: u16, pid: u16, sn: &str) -> HidResult<HidDevice> {
